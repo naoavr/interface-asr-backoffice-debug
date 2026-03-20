@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <title>Whisper ASR Local</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <div class="layout">
+    <div class="logo-area">
+      <img src="https://www.gnr.pt/layout/gnr_frontcontent_1.png" alt="Logótipo GNR" />
+    </div>
+
+    <main class="main">
+      <section class="content" role="region" aria-label="Transcrição de áudio">
+        <div>
+          <h1>Transcrição de Áudio</h1>
+          <p>Seleciona um ou mais ficheiros de áudio/vídeo. Os ficheiros são processados sequencialmente e o resultado enviado para o email indicado após concluídos.</p>
+        </div>
+
+        <div class="field-group">
+          <label for="recipientEmail">Email do destinatário</label>
+          <input type="email" id="recipientEmail" placeholder="email@exemplo.pt"
+                 aria-required="true" autocomplete="email" />
+        </div>
+
+        <!-- Drag & Drop zone -->
+        <div class="drop-zone" id="dropZone" role="button" aria-label="Zona para selecionar ou arrastar ficheiros">
+          <div class="drop-zone-icon" aria-hidden="true">📁</div>
+          <div>Arrasta ficheiros para aqui ou <strong>clica para selecionar</strong></div>
+          <div class="file-count" id="fileCount"></div>
+          <input type="file" id="audioFiles" accept="audio/*,video/*,.mp3,.wav,.ogg,.flac,.m4a,.mp4,.webm,.mkv" multiple
+                 aria-label="Selecionar ficheiros de áudio ou vídeo" />
+        </div>
+
+        <div class="options-row">
+          <div class="field-group">
+            <label for="task">Tarefa</label>
+            <select id="task">
+              <option value="transcribe">Transcrever</option>
+              <option value="translate">Traduzir para inglês</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="language">Idioma (opcional)</label>
+            <input id="language" type="text" placeholder="pt, en, es…" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button id="processBtn" class="btn-primary" aria-label="Iniciar processamento dos ficheiros">
+            Processar ficheiros
+          </button>
+          <button id="cancelBtn" class="btn-danger" aria-label="Cancelar processamento">
+            Cancelar
+          </button>
+        </div>
+
+        <div class="status-area" aria-live="polite">
+          <div class="status-text">
+            <span id="status">Aguardando ficheiros…</span>
+            <span id="spinner" class="spinner" aria-hidden="true"></span>
+          </div>
+          <div class="progress-bar-container" id="progressContainer" aria-hidden="true">
+            <div class="progress-bar-fill" id="progressBar"></div>
+          </div>
+          <div id="error" class="error-text" role="alert"></div>
+          <div id="success" class="success-text" role="status"></div>
+        </div>
+
+        <div id="queueList" class="queue-list" aria-label="Fila de ficheiros"></div>
+
+        <div class="output-area">
+          <h2>
+            Resultado
+            <button id="copyBtn" class="btn-copy" style="display:none" aria-label="Copiar resultado">
+              📋 Copiar
+            </button>
+          </h2>
+          <div id="output" class="output" tabindex="0" aria-label="Resultado da transcrição"></div>
+        </div>
+
+        <!-- Bloco institucional centrado -->
+        <div class="signature-block">
+          <div class="signature-line">Núcleo de Apoio Operativo</div>
+          <div class="signature-subline">
+            Comando Territorial da Guarda Nacional Republicana de Aveiro
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="server-indicator" aria-label="Estado da ligação ao servidor">
+    <span class="server-label" id="serverLabel">Offline</span>
+    <div id="serverDot" class="server-dot" title="Estado do servidor" role="status"></div>
+  </div>
+
+  <!-- Confirm dialog -->
+  <div class="modal-overlay" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-box">
+      <h3 id="confirmTitle">Confirmar processamento</h3>
+      <p id="confirmMessage"></p>
+      <div class="modal-actions">
+        <button class="btn-danger" id="confirmNo" style="display:inline-flex;border-color:rgba(255,255,255,0.2);color:#d1d5db;">
+          Cancelar
+        </button>
+        <button class="btn-primary" id="confirmYes">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS externo -->
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
