@@ -1,0 +1,11 @@
+# Prevent direct access to config.php
+<Files "config.php">
+    Require all denied
+</Files>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "no-referrer"
+</IfModule>
